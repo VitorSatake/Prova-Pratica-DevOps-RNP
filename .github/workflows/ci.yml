@@ -48,4 +48,5 @@ jobs:
     - name: Validate Prometheus config (promtool)
       run: |
         # usa a imagem oficial do Prometheus para validar o prometheus.yml
-        docker run --rm -v ${GITHUB_WORKSPACE}/prometheus:/prometheus prom/prometheus promtool check config /prometheus/prometheus.yml
+        # o entrypoint da imagem é 'prometheus', portanto passamos promtool via --entrypoint
+        docker run --rm -v ${GITHUB_WORKSPACE}/prometheus:/prometheus --entrypoint=/bin/promtool prom/prometheus:latest check config /prometheus/prometheus.yml
