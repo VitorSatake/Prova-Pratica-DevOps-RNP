@@ -167,12 +167,6 @@ curl http://localhost:8000/metrics
 curl http://localhost:8001/metrics
 ```
 
-## Desenvolvimento adicional sugerido
-
- - Adicionar um Makefile ou scripts PowerShell para comandos repetidos (build, up, down, logs).
- - CI já adicionado: veja `.github/workflows/ci.yml` — valida compose, checa YAMLs e roda lint básico.
- - Mover credenciais para variáveis de ambiente externas ou secrets manager (ou remover defaults do compose para forçar `.env`).
-
 ## Integração Contínua (CI)
 
 Este repositório já inclui um workflow de CI em `.github/workflows/ci.yml`. O que ele faz:
