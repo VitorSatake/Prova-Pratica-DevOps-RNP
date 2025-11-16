@@ -186,3 +186,12 @@ Importante: essa não é a melhor prática para ambientes reais. Em produção r
 - Docker secrets (Swarm) ou secrets do orquestrador que você estiver usando (Kubernetes Secrets, HashiCorp Vault, AWS Secrets Manager, etc.).
 - Variáveis de ambiente definidas fora do repositório (não comitadas), ou uso de um provider de secrets com rotação/controle de acesso.
 
+# Links de Repositórios
+
+Praticas de Terraform para infraestrutura em cloud (aws):
+[Terraform](https://github.com/VitorSatake/Terraform) <br>
+https://github.com/VitorSatake/Terraform
+
+Repositório onde se enontram diversos laboratórios de particas de processo de formação DevOps:
+[DevOps](https://github.com/VitorSatake/Processo-Formacao-DevOps) <br>
+https://github.com/VitorSatake/Processo-Formacao-DevOps
