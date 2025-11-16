@@ -48,13 +48,9 @@ docker compose version
 
 ## Como rodar (modo rápido)
 
-Na raiz do projeto (PowerShell):
+Na raiz do projeto:
 
 ```powershell
-# sobe todos os serviços em background (rebuild quando necessário)
-# copie o arquivo de exemplo de variáveis de ambiente e ajuste valores sensíveis
-copy .env.example .env
-
 # sobe todos os serviços em background (rebuild quando necessário)
 docker compose up --build -d
 
@@ -70,7 +66,7 @@ Observações:
 
 - Postgres: 5432 (usuário: `monitor`, senha: `monitor123`, bd: `metrics` conforme `docker-compose.yml`).
 - Prometheus: 9090
-- Grafana: 3000 (usuário `admin`, senha padrão `admin` — altere em produção)
+- Grafana: 3000 (usuário `admin`, senha padrão `admin`)
 - ping-agent: expõe /metrics em 8000 dentro do container
 - http-agent: expõe /metrics em 8001 dentro do container
 
@@ -86,26 +82,6 @@ Observações:
  - `.env.example` — exemplo das variáveis de ambiente usadas pelo `docker-compose` (copie para `.env`).
  - `.github/workflows/ci.yml` — workflow do GitHub Actions que valida o compose, roda lint em Python e valida YAMLs.
 
-## Como desenvolver / executar agentes localmente
-
-É possível executar os agentes sem Docker, num ambiente virtual Python:
-
-```powershell
-cd .\ping-agent
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-python .\ping_agent.py
-
-# idem para http-agent
-cd ..\http-agent
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-python .\http_agent.py
-```
-
-Os agentes expõem métricas no endpoint HTTP (porta definida no código/Dockerfile). Configure o Prometheus para apontar para esses endpoints (o compose já faz isso).
 
 ## Banco de dados
 
@@ -137,6 +113,7 @@ docker run --rm -v ${PWD}\prometheus:/prometheus prom/prometheus promtool check 
 ## Observabilidade e troubleshooting
 
 - Para ver métricas do Prometheus: http://localhost:9090
+- Para ver dashboards do Grafana: http://localhost:3000
 - Para ver logs de um serviço:
 
 ```powershell
