@@ -4,9 +4,9 @@ from prometheus_client import start_http_server, Gauge, Counter
 
 
 TARGETS = [
-    {"target": "google.com", "path": "/"},
-    {"target": "youtube.com", "path": "/"},
-    {"target": "rnp.br", "path": "/"},
+	{"target": "google.com", "path": "/"},
+	{"target": "youtube.com", "path": "/"},
+	{"target": "rnp.br", "path": "/"},
 ]
 
 
@@ -19,20 +19,32 @@ INTERVAL = 15
 
 
 if __name__ == '__main__':
-    start_http_server(8001)
-    while True:
-        for t in TARGETS:
-            url = f"https://{t['target']}{t['path']}"
-            try:
-                ts = time.time()
-                r = requests.get(url, timeout=10)
-                elapsed = time.time() - ts
-                resp_time.labels(target=t['target'], path=t['path']).set(elapsed)
-                up_g.labels(target=t['target'], path=t['path']).set(1)
-                status_cnt.labels(target=t['target'], path=t['path'], code=str(r.status_code)).inc()
-            except Exception:
-                # marca como down
-                resp_time.labels(target=t['target'], path=t['path']).set(0)
-                up_g.labels(target=t['target'], path=t['path']).set(0)
-                status_cnt.labels(target=t['target'], path=t['path'], code='0').inc()
-        time.sleep(INTERVAL)
+	start_http_server(8001)
+	while True:
+		for t in TARGETS:
+			url = f"https://{t['target']}{t['path']}"
+			try:
+				ts = time.time()
+				r = requests.get(url, timeout=10)
+				elapsed = time.time() - ts
+
+				# salva no banco (se existir conexão 'conn' e cursor 'cur')
+				try:
+					cur.execute(
+						"INSERT INTO http_metrics (target, path, response_time, status_code) VALUES (%s,%s,%s,%s)",
+						(t['target'], t['path'], elapsed, r.status_code),
+					)
+					conn.commit()
+				except NameError:
+					# conexão com banco não configurada neste script — ignorar
+					pass
+
+				resp_time.labels(target=t['target'], path=t['path']).set(elapsed)
+				up_g.labels(target=t['target'], path=t['path']).set(1)
+				status_cnt.labels(target=t['target'], path=t['path'], code=str(r.status_code)).inc()
+			except Exception:
+				# marca como down
+				resp_time.labels(target=t['target'], path=t['path']).set(0)
+				up_g.labels(target=t['target'], path=t['path']).set(0)
+				status_cnt.labels(target=t['target'], path=t['path'], code='0').inc()
+		time.sleep(INTERVAL)
