@@ -52,6 +52,10 @@ Na raiz do projeto (PowerShell):
 
 ```powershell
 # sobe todos os serviços em background (rebuild quando necessário)
+# copie o arquivo de exemplo de variáveis de ambiente e ajuste valores sensíveis
+copy .env.example .env
+
+# sobe todos os serviços em background (rebuild quando necessário)
 docker compose up --build -d
 
 # verificar logs (exemplo para grafana)
@@ -79,6 +83,8 @@ Observações:
 - `grafana/provisioning/` — configura dashboards e datasource para provisionamento automático.
 - `db/init.sql` — script de inicialização do banco (cria tabela(s) usadas pelos agents).
 - `ping-agent/` e `http-agent/` — código dos agentes, Dockerfile e `requirements.txt`.
+ - `.env.example` — exemplo das variáveis de ambiente usadas pelo `docker-compose` (copie para `.env`).
+ - `.github/workflows/ci.yml` — workflow do GitHub Actions que valida o compose, roda lint em Python e valida YAMLs.
 
 ## Como desenvolver / executar agentes localmente
 
@@ -163,9 +169,26 @@ curl http://localhost:8001/metrics
 
 ## Desenvolvimento adicional sugerido
 
-- Adicionar um Makefile ou scripts PowerShell para comandos repetidos (build, up, down, logs).
-- Adicionar CI que rode lint (flake8/black), testes unitários e validação YAML/Compose.
-- Mover credenciais para variáveis de ambiente externas ou secrets manager.
+ - Adicionar um Makefile ou scripts PowerShell para comandos repetidos (build, up, down, logs).
+ - CI já adicionado: veja `.github/workflows/ci.yml` — valida compose, checa YAMLs e roda lint básico.
+ - Mover credenciais para variáveis de ambiente externas ou secrets manager (ou remover defaults do compose para forçar `.env`).
+
+## Integração Contínua (CI)
+
+Este repositório já inclui um workflow de CI em `.github/workflows/ci.yml`. O que ele faz:
+
+- Faz checkout do código.
+- Configura Python 3.10 e instala `flake8` e `yamllint`.
+- Roda checagens rápidas de sintaxe Python para os agentes e executa `flake8` (configurado com tolerâncias mínimas).
+- Linta arquivos YAML importantes (`prometheus`, `grafana/provisioning` e `docker-compose.yml`).
+- Valida o `docker-compose.yml` com `docker compose config` e valida o `prometheus/prometheus.yml` com `promtool` (executado em container oficial do Prometheus).
+
+Observações sobre o CI:
+
+- O job de validação do compose e o `promtool` requerem Docker no runner (o `ubuntu-latest` possui Docker instalado no ambiente padrão).
+- Atualmente algumas verificações de lint estão configuradas de forma conservadora para facilitar a execução local; podemos tornar o CI mais rigoroso (falhar em erros de lint) caso prefira.
+
+Para executar localmente as mesmas validações do CI, veja a seção "Como validar as configurações" acima.
 
 ## Contribuindo
 
