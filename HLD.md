@@ -17,3 +17,25 @@ Monitorar disponibilidade e performance (ping e HTTP) de alguns domínios e perm
 2. Cada agent expõe métricas Prometheus no /metrics.
 3. Prometheus faz scrape destes endpoints e grava em seu TSDB.
 4. Grafana consulta Prometheus
+
+## Containers
+
+![Containers](./assets/Containers/containers.png)
+
+## Prometheus
+
+![Prometheus](./assets/Prometheus/prometheus.png)
+
+## Grafana
+
+![Grafana](./assets/Grafana/http_response.png)
+
+![Grafana](./assets/Grafana/dashboards.png)
+
+![Grafana](./assets/Grafana/http_up.png)
+
+## Banco de Dados
+
+### Demonstração de conexão e consulta ao banco no container
+
+![Grafana](./assets/DB/postgres.png)
