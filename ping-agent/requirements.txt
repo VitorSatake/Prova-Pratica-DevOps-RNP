@@ -1,2 +1,4 @@
 prometheus_client==0.16.0
 ping3==4.0.4
+psycopg2-binary==2.9.9
+ping3==4.0.4
