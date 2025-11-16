@@ -1,0 +1,44 @@
+{
+    "annotations": {
+        "list": []
+    },
+    "panels": [
+        {
+            "type": "graph",
+            "title": "Ping RTT (s)",
+            "targets": [
+                {
+                    "expr": "ping_rtt_seconds"
+                }
+            ]
+        },
+        {
+            "type": "graph",
+            "title": "Ping Packet Loss (%)",
+            "targets": [
+                {
+                    "expr": "ping_packet_loss_percent"
+                }
+            ]
+        },
+        {
+            "type": "graph",
+            "title": "HTTP Response Time (s)",
+            "targets": [
+                {
+                    "expr": "http_response_time_seconds"
+                }
+            ]
+        },
+        {
+            "type": "stat",
+            "title": "HTTP Up",
+            "targets": [
+                {
+                    "expr": "http_up"
+                }
+            ]
+        }
+    ],
+    "title": "Web Monitor"
+}
