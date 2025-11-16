@@ -1,5 +1,16 @@
 # Prova-Pratica-DevOps-RNP
 
+## Clonando o repositório
+
+Para obter uma cópia do projeto localmente, execute o comando abaixo no seu terminal.
+
+- Usando HTTPS:
+
+```powershell
+git clone https://github.com/VitorSatake/Prova-Pratica-DevOps-RNP.git
+cd Prova-Pratica-DevOps-RNP
+```
+
 > Projeto de demonstração/avaliação para a prova prática DevOps — RNP
 
 Este repositório contém um stack de observabilidade simples com Prometheus e Grafana, um banco Postgres e dois *agents* (ping e http) que coletam métricas e as expõem para o Prometheus. Está montado para rodar via Docker Compose.
