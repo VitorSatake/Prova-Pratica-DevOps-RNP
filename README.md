@@ -183,23 +183,12 @@ Este repositório já inclui um workflow de CI em `.github/workflows/ci.yml`. O 
 - Linta arquivos YAML importantes (`prometheus`, `grafana/provisioning` e `docker-compose.yml`).
 - Valida o `docker-compose.yml` com `docker compose config` e valida o `prometheus/prometheus.yml` com `promtool` (executado em container oficial do Prometheus).
 
-Observações sobre o CI:
+## Nota sobre variáveis expostas
 
-- O job de validação do compose e o `promtool` requerem Docker no runner (o `ubuntu-latest` possui Docker instalado no ambiente padrão).
-- Atualmente algumas verificações de lint estão configuradas de forma conservadora para facilitar a execução local; podemos tornar o CI mais rigoroso (falhar em erros de lint) caso prefira.
+Você certamente notará que este repositório (no `docker-compose.yml` e no `.env.example`) contém exemplos de variáveis e valores — inclusive senhas em texto claro para facilitar a execução local e a avaliação do projeto. Isso foi feito intencionalmente para demonstrar o funcionamento do stack de forma rápida.
 
-Para executar localmente as mesmas validações do CI, veja a seção "Como validar as configurações" acima.
+Importante: essa não é a melhor prática para ambientes reais. Em produção recomenda-se fortemente utilizar mecanismos de gerenciamento de segredos, por exemplo:
 
-## Contribuindo
+- Docker secrets (Swarm) ou secrets do orquestrador que você estiver usando (Kubernetes Secrets, HashiCorp Vault, AWS Secrets Manager, etc.).
+- Variáveis de ambiente definidas fora do repositório (não comitadas), ou uso de um provider de secrets com rotação/controle de acesso.
 
-1. Fork do repositório
-2. Criar branch com feature/fix
-3. Abrir Pull Request com descrição clara das mudanças
-
-## Licença
-
-O repositório inclui um arquivo `LICENSE` na raiz; verifique os termos ali contidos.
-
----
-
-Se quiser, adapto este README para inglês, adiciono um resumo executivo para apresentação, ou crio um pequeno script `run.ps1` com os comandos mais comuns. Deseja que eu também atualize o `docker-compose.yml` para remover senhas em texto plano (por exemplo, substituindo por variáveis de ambiente)?
